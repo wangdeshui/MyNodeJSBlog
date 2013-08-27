@@ -1,0 +1,32 @@
+<%- include header %>
+
+<div class="container well well-lg" style="margin-top: 80px;">
+
+    <div class="row">
+        <div class="col-md-10">
+
+            <ul class="list-group">
+
+                <% for(post in posts){ %>
+                <li class="list-group-item">
+                    <h3><a href='/post/<%= posts[post].id%>'>   <%= posts[post].title %></a></h3>
+
+                    <p><%- posts[post].summary %></p>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+
+        <div class="col-md-2">
+            About Me
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<%- include footer %>
