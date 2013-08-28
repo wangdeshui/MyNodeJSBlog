@@ -1,10 +1,32 @@
-<ul>
+<style>
+    #posts li {
+
+        margin: 0px 10px;
+    }
+
+    #posts li h3 {
+        border-bottom: dashed lightgray 1px;
+    }
+
+
+</style>
+
+
+<ul class="list-unstyled" id="posts">
     <% for(post in posts){ %>
     <li>
-        <h3 class="lead"><a href='/post/<%= posts[post].id%>'> <%= posts[post].title %></a></h3>
+        <h3><a href='/post/<%= posts[post].id%>'><strong> <%= posts[post].title %></strong></a></h3>
 
-        <p><%- posts[post].summary  %></p>
-        <p class="text-right"><small><%= posts[post].createdAt || "" %></small></p>
+        <p><%- posts[post].summary %></p>
+
+        <p class="text-right">
+            <small><%= posts[post].createdAt || "" %></small>
+        </p>
+        <div class="article-footer row">
+            <div class="col-md-8"> Tags:</div>
+            <div class="col-md-4 text-right"><a href='/post/<%= posts[post].id%>#comments'><strong>comments</strong></a></div>
+
+        </div>
     </li>
     <% } %>
 </ul>

@@ -1,27 +1,66 @@
-<input type="hidden" id="articleId" value='<%= id%>'>
+<div style="padding: 20px; ">
 
-<h1><%- title || "" %></h1>
+    <div>
+        <input type="hidden" id="articleId" value='<%= id%>'>
 
-<h2><%- summary || "" %></h2>
-<p><%- content || ""%></p>
+        <h1 style="border-bottom: dashed #808080 1px; padding: 5px;"><%- title || "" %></h1>
 
-<hr>
-
-<form role="form">
-    <div class="form-group">
-        <label for="name">Email address</label>
-        <input type="text" class="form-control" id="name" placeholder="name">
+        <p><%- content || ""%></p>
     </div>
-    <div class="form-group">
-        <label for="subject">subject</label>
-        <input type="text" class="form-control" id="subject" placeholder="subject">
+
+    <hr>
+    <div id="comments">
+
+        <%= comments.length %>
+
     </div>
-    <div class="form-group">
-        <label for="comment">comment</label>
-       <textarea rows="3" cols="10" id="comment" name="comment"></textarea>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <form role="form">
+                <div class="form-group">
+                    <label for="name">Email address</label>
+                    <input type="text" class="form-control" id="name" placeholder="name">
+                </div>
+                <div class="form-group">
+                    <label for="subject">subject</label>
+                    <input type="text" class="form-control" id="subject" placeholder="subject">
+                </div>
+                <div class="form-group">
+                    <label for="comment">comment</label>
+                    <textarea rows="6" cols="10" id="comment" name="comment" class="form-control"></textarea>
+                </div>
+                <button type="button" id="postcomment" class="btn btn-default">Submit</button>
+            </form>
+        </div>
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("body").on("click", "#postcomment", function (e) {
+            $.ajax({
+                url: "/comments",
+                type: "POST",
+                data: {id: $("#articleId").val(), name: $("#name").val(),
+                    subject: $("#subject").val(), comment: $("#comment").val()},
+
+                success: function (msg) {
+                    $("#comments").html(msg);
+                },
+                error: function (jqXHR, textStatus) {
+                    alert("Request failed: " + textStatus);
+                }
+            });
+
+
+        });
+
+    });
+
+</script>
 
 
 

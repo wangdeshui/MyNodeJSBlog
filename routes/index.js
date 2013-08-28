@@ -3,10 +3,10 @@ var Post = require('../models/Post.js');
 var markdown = require('markdown').markdown;
 module.exports = function (app) {
     app.get('/', function (req, res) {
-        Post.find({},function(err,posts){
-            res.render('index', { posts: posts});
-
-        });
+        Post.find({}).sort("-createdAt").exec(
+            function (err, posts) {
+                res.render('index', { posts: posts});
+            });
     });
 
     app.get('/admin', function (req, res) {
@@ -53,23 +53,41 @@ module.exports = function (app) {
             }
         });
     });
-    app.get('/post',  function (req, res) {
-        res.render('post', { title: '发表' ,user: req.session.user});
+    app.get('/post', function (req, res) {
+        res.render('post', { title: '发表', user: req.session.user});
     });
     app.post('/post', function (req, res) {
-        var post=new Post({title:req.body.title,summary:req.body.summary,content:req.body.content,createdAt:new Date()});
-        post.content=markdown.toHTML(post.content);
-        post.save(function(err,post){
+        var post = new Post({title: req.body.title, summary: req.body.summary, content: req.body.content, createdAt: new Date()});
+        post.content = markdown.toHTML(post.content);
+        post.save(function (err, post) {
             res.redirect("/");
         });
 
     });
 
-    app.get('/post/:id',function(req,res){
-         Post.findById(req.params.id,function(err,post){
-                res.render('article',post);
-         });
+    app.get('/post/:id', function (req, res) {
+        Post.findById(req.params.id, function (err, post) {
+            res.render('article', post);
+        });
     });
+
+
+    app.post('/comments',function(req,res)
+        {
+            Post.findById(req.body.id, function (err, post) {
+                var comment={name:req.body.name,subject:req.body.subject,comment:req.body.comment};
+                post.comments.push(comment);
+                post.save(function(err,post)
+                {
+                    res.render("shared/comment", {layout:"",comment:comment});
+                })
+
+            });
+
+
+        }
+    )
+
 
     app.get('/logout', function (req, res) {
         req.session.user = null;

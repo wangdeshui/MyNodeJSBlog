@@ -5,22 +5,26 @@
  * Time: 4:11 PM
  * To change this template use File | Settings | File Templates.
  */
-var mongoose=require('./db.js');
+var mongoose = require('./db.js');
 
-var PostSchema=mongoose.Schema({
+var PostSchema = mongoose.Schema({
     title: String,
-    summary:String,
-    content:String,
-    comments:[{authorname:String,
-        title:String,
-        comment:String
-    }],
-    createdAt:Date,
-    updatedAt:Date
+    summary: String,
+    content: String,
+    comments: [
+        {
+            name: String,
+            subject: String,
+            comment: String,
+            createdAt: Date
+        }
+    ],
+    createdAt: Date,
+    updatedAt: Date
 
 });
 
-var Post=mongoose.model('Post', PostSchema);
+var Post = mongoose.model('Post', PostSchema);
 
-module.exports=Post;
+module.exports = Post;
 
