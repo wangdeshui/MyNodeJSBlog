@@ -4,7 +4,7 @@ var markdown = require('markdown').markdown;
 module.exports = function (app) {
     app.get('/', function (req, res) {
         Post.find({},function(err,posts){
-            res.render('index', { posts: posts, user: req.session.user});
+            res.render('index', { posts: posts});
 
         });
     });
@@ -15,7 +15,7 @@ module.exports = function (app) {
             if (user == null) {
                 isFirstSetting = true;
             }
-            res.render('admin', {isFirstSetting: isFirstSetting, error: '', user: req.session.user});
+            res.render('admin', {isFirstSetting: isFirstSetting, error: ''});
         });
     });
 
@@ -24,7 +24,7 @@ module.exports = function (app) {
             if (user != null) {
 
                 if (req.body.OldPassword != user.password) {
-                    res.render('admin', {isFirstSetting: false, error: 'old password is wrong', user: req.session.user});
+                    res.render('admin', {isFirstSetting: false, error: 'old password is wrong'});
                     return;
                 }
             }
@@ -36,7 +36,7 @@ module.exports = function (app) {
     });
 
     app.get('/login', function (req, res) {
-        res.render('login', { title: '登录', error: req.flash('loginError').toString(), user: req.session.user });
+        res.render('login', { title: '登录', error: req.flash('loginError').toString()});
     });
     app.post('/login', function (req, res) {
 
@@ -57,7 +57,7 @@ module.exports = function (app) {
         res.render('post', { title: '发表' ,user: req.session.user});
     });
     app.post('/post', function (req, res) {
-        var post=new Post({title:req.body.title,summary:req.body.summary,content:req.body.content});
+        var post=new Post({title:req.body.title,summary:req.body.summary,content:req.body.content,createdAt:new Date()});
         post.content=markdown.toHTML(post.content);
         post.save(function(err,post){
             res.redirect("/");

@@ -1,29 +1,11 @@
-<%- include header %>
+<ul>
+    <% for(post in posts){ %>
+    <li>
+        <h3 class="lead"><a href='/post/<%= posts[post].id%>'> <%= posts[post].title %></a></h3>
 
-<div style="margin-top: 50px; padding: 40px; background-color: lightgrey;">
-    <div class="row ">
-        <div class="col-sm-9 panel panel-default" >
+        <p><%- posts[post].summary  %></p>
+        <p class="text-right"><small><%= posts[post].createdAt || "" %></small></p>
+    </li>
+    <% } %>
+</ul>
 
-            <ul>
-                <% for(post in posts){ %>
-                <li>
-                    <h3 class="lead"><a href='/post/<%= posts[post].id%>'> <%= posts[post].title %></a></h3>
-
-                    <p><%- posts[post].summary %></p>
-                </li>
-                <% } %>
-            </ul>
-        </div>
-
-        <%- include sidebar %>
-
-    </div>
-
-
-</div>
-
-
-</div>
-
-
-<%- include footer %>
