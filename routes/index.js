@@ -20,6 +20,13 @@ module.exports = function (app) {
     app.post('/comments', article.postcomment);
     app.get('/logout', account.logout);
 
+    app.get('/managepost',account.managepost);
+
+    app.get('/post/edit/:id',article.editarticle);
+    app.post('/post/edit/:id',article.editarticleSave);
+
+    app.get('/post/delete/:id',article.deletearticle);
+
 
 };
 

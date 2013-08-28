@@ -61,3 +61,12 @@ exports.logout = function (req, res) {
     req.session.user = null;
     res.redirect("/");
 };
+
+
+exports.managepost=function(req,res)
+{
+    Post.find({}).sort("-createdAt").exec(
+        function (err, posts) {
+            res.render('managepost', { posts: posts});
+        });
+};

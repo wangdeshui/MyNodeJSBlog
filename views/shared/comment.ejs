@@ -1,3 +1,7 @@
-<p><%= comment.name%></p>
-<p><%= comment.subject%></p>
-<p><%= comment.comment%></p>
+<li style="border-bottom: dashed lightgray 1px; margin-top: 10px;">
+
+    <p><strong><%= comment.name%>:<cite> <%= comment.subject%></cite><strong></p>
+    <blockquote>
+        <p><small><%= comment.comment%></small></p>
+    </blockquote>
+</li>

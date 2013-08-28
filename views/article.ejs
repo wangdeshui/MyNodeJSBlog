@@ -10,9 +10,13 @@
 
     <hr>
     <div id="comments">
+        <ul class="list-unstyled">
+            <% for(var i=0;i<(comments.length-1);i++){ %>
 
-        <%= comments.length %>
+            <%- partial("shared/comment",comments[i])%>
 
+            <%}%>
+        </ul>
     </div>
 
 
@@ -48,7 +52,7 @@
                     subject: $("#subject").val(), comment: $("#comment").val()},
 
                 success: function (msg) {
-                    $("#comments").html(msg);
+                    $("#comments>ul").append(msg);
                 },
                 error: function (jqXHR, textStatus) {
                     alert("Request failed: " + textStatus);
