@@ -70,3 +70,12 @@ exports.managepost=function(req,res)
             res.render('managepost', { posts: posts});
         });
 };
+
+exports.checkLogin=function(req,res,next){
+    if(req.session.user==null)
+    {
+        res.redirect("/login");
+    }
+    next();
+
+}

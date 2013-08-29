@@ -10,22 +10,22 @@ module.exports = function (app) {
 
     app.get('/login', account.login);
     app.post('/login', account.postlogin);
-
-
-    app.get('/post', article.articlepage);
-    app.post('/post', article.postarticle);
+    app.post('/comments', article.postcomment);
     app.get('/post/:id', article.viewarticle);
 
 
-    app.post('/comments', article.postcomment);
-    app.get('/logout', account.logout);
+    // below need permission
+    app.get('/post',account.checkLogin, article.articlepage);
+    app.post('/post', account.checkLogin,article.postarticle);
 
-    app.get('/managepost',account.managepost);
+    app.get('/logout', account.checkLogin, account.logout);
 
-    app.get('/post/edit/:id',article.editarticle);
-    app.post('/post/edit/:id',article.editarticleSave);
+    app.get('/managepost',account.checkLogin,account.managepost);
 
-    app.get('/post/delete/:id',article.deletearticle);
+    app.get('/post/edit/:id',account.checkLogin,article.editarticle);
+    app.post('/post/edit/:id',account.checkLogin,article.editarticleSave);
+
+    app.get('/post/delete/:id',account.checkLogin,article.deletearticle);
 
 
 };

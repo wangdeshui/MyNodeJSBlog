@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -30,8 +29,8 @@ app.use(express.methodOverride());
 
 
 // 中间件要放到app.use(app.router)之前
-app.use(function(req, res, next){
-    app.locals.user=req.session.user;
+app.use(function (req, res, next) {
+    app.locals.user = req.session.user;
     next();
 });
 
@@ -40,24 +39,41 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
 
 
 // development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
-
+//if ('development' == app.get('env')) {
+//    app.use(express.errorHandler());
+//}
 
 
 routes(app);
 
 
-
-
-
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(app.get('port'), function () {
+    console.log('Express server listening on port ' + app.get('port'));
 });
+
+
+function logErrors(err, req, res, next) {
+    console.error(err.stack);
+    next(err);
+}
+
+function clientErrorHandler(err, req, res, next) {
+    if (req.xhr) {
+        res.send(500, { error: 'Something blew up!' });
+    } else {
+        next(err);
+    }
+}
+
+function errorHandler(err, req, res, next) {
+    res.status(500);
+    res.render('error', { error: err });
+}
 
 
